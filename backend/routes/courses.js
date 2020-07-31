@@ -28,4 +28,33 @@ router.route("/add").post((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.route("/:id").get((req, res) => {
+  Course.findById(req.params.id)
+    .then((course) => res.json(course))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/:id").delete((req, res) => {
+  Course.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Course deleted."))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/update/:id").post((req, res) => {
+  Course.findById(req.params.id)
+    .then((course) => {
+      course.courseID = req.body.courseID;
+      course.name = req.body.name;
+      course.description = req.body.description;
+      course.credits = Number(req.body.credits);
+      course.prereqs = req.body.prereqs;
+
+      course
+        .save()
+        .then(() => res.json("Course updated!"))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 module.exports = router;
