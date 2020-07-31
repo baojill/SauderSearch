@@ -6,7 +6,7 @@ const CourseSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   credits: { type: Number, required: true },
-  prerequisites: [],
+  prereqs: [],
 });
 
 CourseSchema.method({});

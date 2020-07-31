@@ -26,6 +26,10 @@ app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
 
+const coursesRouter = require("./routes/courses");
+
+app.use("/courses", coursesRouter);
+
 app.get("/test", function (req, res) {
   res.send("Hello World");
 });
