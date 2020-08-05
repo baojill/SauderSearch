@@ -50,8 +50,15 @@ for course in courses:
         "(")[2].partition(")")[0].partition("-")[0].partition("/")[0])
 
 for cont in content:
-    description = ''
+    description = cont.text.partition('  ')[0].partition(
+        'This course is not eligible for Credit/D/Fail grading.')[0]
     prereq = []
+
+    # if cont.br != ' ':
+    #     description = cont.br.previous_sibling.strip()
+    # else:
+    #     description = cont.em.previous_sibling.strip()
+
     allEm = cont.findAll("em")
     for em in allEm:
         if em.text == 'Prerequisite:':
