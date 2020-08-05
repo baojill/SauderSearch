@@ -43,25 +43,37 @@ def toInt(var):
     return int_str
 
 
+data = []
+
 for course in courses:
+    datum = {}
     courseID = course.a.next_sibling.strip().partition("(")[0].strip()
     name = course.b.text
     credits = toInt(course.a.next_sibling.strip().partition(
         "(")[2].partition(")")[0].partition("-")[0].partition("/")[0])
 
-for cont in content:
+    datum['courseID'] = courseID
+    datum['name'] = name
+    datum['credits'] = credits
+    datum['prereqs'] = []
+
+    data.append(datum)
+
+for i, cont in enumerate(content):
     description = cont.text.partition('  ')[0].partition(
         'This course is not eligible for Credit/D/Fail grading.')[0]
-    prereq = []
-
-    # if cont.br != ' ':
-    #     description = cont.br.previous_sibling.strip()
-    # else:
-    #     description = cont.em.previous_sibling.strip()
+    prereqs = []
+    corereqs = []
 
     allEm = cont.findAll("em")
+
     for em in allEm:
         if em.text == 'Prerequisite:':
-            prereq = parsePrereqs(em.next_sibling.strip().partition(".")[0])
+            prereqs = parsePrereqs(em.next_sibling.strip().partition(".")[0])
+            # print (prereqs)
         if em.text == 'Corequisite:':
-            corereq = parsePrereqs(em.next_sibling.strip().partition(".")[0])
+            corereqs = parsePrereqs(em.next_sibling.strip().partition(".")[0])
+
+    data[i]['description'] = description
+    data[i]['prereqs'] = prereqs
+    data[i]['corereqs'] = corereqs

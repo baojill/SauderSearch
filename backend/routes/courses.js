@@ -14,6 +14,7 @@ router.route("/add").post((req, res) => {
   const specialization = req.body.specialization;
   const credits = Number(req.body.credits);
   const prereqs = req.body.prereqs;
+  const corereqs = req.body.corereqs;
 
   const newCourse = new Course({
     courseID,
@@ -22,6 +23,7 @@ router.route("/add").post((req, res) => {
     specialization,
     credits,
     prereqs,
+    corereqs,
   });
 
   newCourse
@@ -51,6 +53,7 @@ router.route("/update/:id").post((req, res) => {
       course.specialization = req.body.specialization;
       course.credits = Number(req.body.credits);
       course.prereqs = req.body.prereqs;
+      course.corereqs = req.body.corereqs;
 
       course
         .save()
