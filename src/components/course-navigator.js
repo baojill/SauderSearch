@@ -123,19 +123,11 @@ export default class CourseNavigator extends Component {
                   type="text"
                   required
                   className="form-control"
-                  value={this.state.description}
-                  onChange={this.onChangeDescription}
+                  value={this.state.courseID}
+                  onChange={this.onChangeID}
                 />
               </div>
-              {/* <div className="form-group">
-              <label>Duration (in minutes): </label>
-              <input
-                type="text"
-                className="form-control"
-                value={this.state.duration}
-                onChange={this.onChangeDuration}
-              />
-            </div> */}
+              <label>Prerequisite / Corequisite Courses: </label>
               <div className="form-group">
                 <input
                   type="submit"
