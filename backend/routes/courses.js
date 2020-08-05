@@ -11,6 +11,7 @@ router.route("/add").post((req, res) => {
   const courseID = req.body.courseID;
   const name = req.body.name;
   const description = req.body.description;
+  const specialization = req.body.specialization;
   const credits = Number(req.body.credits);
   const prereqs = req.body.prereqs;
 
@@ -18,6 +19,7 @@ router.route("/add").post((req, res) => {
     courseID,
     name,
     description,
+    specialization,
     credits,
     prereqs,
   });
@@ -46,6 +48,7 @@ router.route("/update/:id").post((req, res) => {
       course.courseID = req.body.courseID;
       course.name = req.body.name;
       course.description = req.body.description;
+      course.specialization = req.body.specialization;
       course.credits = Number(req.body.credits);
       course.prereqs = req.body.prereqs;
 

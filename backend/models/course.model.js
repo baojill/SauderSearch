@@ -5,8 +5,14 @@ const CourseSchema = new Schema({
   courseID: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
+  specialization: { type: String, required: true },
   credits: { type: Number, required: true },
-  prereqs: [],
+  prereqs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "course",
+    },
+  ],
 });
 
 CourseSchema.method({});
