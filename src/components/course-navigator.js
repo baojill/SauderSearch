@@ -97,49 +97,53 @@ export default class CourseNavigator extends Component {
       <div>
         <h3>Search for a Sauder Course</h3>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Specialization: </label>
-            <select
-              ref="userInput"
-              required
-              className="form-control"
-              value={this.state.specialization}
-              onChange={this.onChangeSpecialization}
-            >
-              {this.state.options.map(function (option) {
-                return (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Description: </label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={this.state.description}
-              onChange={this.onChangeDescription}
-            />
-          </div>
-          <div className="form-group">
-            <label>Duration (in minutes): </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.duration}
-              onChange={this.onChangeDuration}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Create Exercise Log"
-              className="btn btn-primary"
-            />
+          <div class="row">
+            <div className="form-group" class="col-md-6">
+              <label>Specialization: </label>
+              <select
+                ref="userInput"
+                required
+                className="form-control"
+                value={this.state.specialization}
+                onChange={this.onChangeSpecialization}
+              >
+                {this.state.options.map(function (option) {
+                  return (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div class="column col-md-6">
+              <div className="form-group">
+                <label>Course ID (e.g. COMM 101): </label>
+                <input
+                  type="text"
+                  required
+                  className="form-control"
+                  value={this.state.description}
+                  onChange={this.onChangeDescription}
+                />
+              </div>
+              {/* <div className="form-group">
+              <label>Duration (in minutes): </label>
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.duration}
+                onChange={this.onChangeDuration}
+              />
+            </div> */}
+              <div className="form-group">
+                <input
+                  type="submit"
+                  value="Add to Worklist"
+                  className="btn btn-primary"
+                />
+              </div>
+            </div>
           </div>
         </form>
       </div>
