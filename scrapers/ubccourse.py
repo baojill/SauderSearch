@@ -138,36 +138,17 @@ def validateJSON(jsonData):
     return True
 
 
-# dat = data[1]
-# dat.prereqs = dat.convert_preq()
-# dat.corereqs = dat.convert_creq()
+# post data using Python Requests module
 
-dd = []
+url = 'http://localhost:5000/courses/add'
 
-for i, d in enumerate(data):
-    dat = data[i]
-    dat.prereqs = dat.convert_preq()
-    dat.corereqs = dat.convert_creq()
-    json_dump = json.dumps(dat.__dict__)
-    print(json_dump)
-    print(type(json_dump))
-    dd.append(json_dump)
-
-
-print('\n')
-len = len(data)
-print(len)
-
-with open("/Users/jillbao/Documents/Projects/sauder-search/data/comm-courses.txt", "w") as f:
-    f.write(json.dumps(dd))
-
-
-# url = 'http://localhost:5000/courses/add'
-
-# try:
-#     if (validateJSON(json_dump)):
-#         r = requests.post(url, json=json_dump)
-#         print(r.text)
-#         print(r.status_code)
-# except requests.exceptions.ConnectionError:
-#     r.status_code = "Connection refused"
+for d in data:
+    json_d = data[0].__dict__
+    # print(json_d)
+    try:
+        if (validateJSON(json_dump)):
+            r = requests.post(url, json=json_d)
+            print(r.text)
+            print(r.status_code)
+    except requests.exceptions.ConnectionError:
+        r.status_code = "Connection refused"
