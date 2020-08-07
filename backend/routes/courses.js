@@ -8,22 +8,23 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
+  console.log("jHAHAHHAHAHHA");
   const courseID = req.body.courseID;
   const name = req.body.name;
-  const description = req.body.description;
-  const specialization = req.body.specialization;
   const credits = Number(req.body.credits);
   const prereqs = req.body.prereqs;
   const corereqs = req.body.corereqs;
+  const description = req.body.description;
+  const specialization = req.body.specialization;
 
   const newCourse = new Course({
     courseID,
     name,
-    description,
-    specialization,
     credits,
     prereqs,
     corereqs,
+    description,
+    specialization,
   });
 
   newCourse
