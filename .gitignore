@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-/backend/node_modules
+backend/node_modules
 
 # testing
 /coverage
@@ -26,3 +26,6 @@ yarn-error.log*
 # dotenv environment variables file
 .env
 .env.test
+
+# JSON data
+scrapers/ubccourse.py

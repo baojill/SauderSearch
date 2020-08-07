@@ -2,16 +2,11 @@ import requests
 
 import re
 import json
-import pymongo
 
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 
 url = "http://www.calendar.ubc.ca/vancouver/courses.cfm?page=name&code=COMM"
-
-myclient = pymongo.MongoClient("mongodb://localhost:5000/")
-mydb = myclient["sauder-courses"]
-mycol = mydb["Cluster0"]
 
 # opening up connection, grabbing the page
 uClient = uReq(url)
@@ -108,6 +103,11 @@ for i, cont in enumerate(content):
     description = cont.text.partition('  ')[0].partition(
         'This course is not eligible for Credit/D/Fail grading.')[0]
 
+    if description:
+        description = description
+    else:
+        description = ''
+
     pDescription = ''
     cDescription = ''
     prereqs = []
@@ -130,20 +130,44 @@ for i, cont in enumerate(content):
     data[i].corereqs.courses = corereqs
 
 
-dat = data[0]
-dat.prereqs = dat.convert_preq()
-dat.corereqs = dat.convert_creq()
+def validateJSON(jsonData):
+    try:
+        json.loads(jsonData)
+    except ValueError as err:
+        return False
+    return True
 
-json_dump = json.dumps(dat.__dict__)
-print(json_dump)
+
+# dat = data[1]
+# dat.prereqs = dat.convert_preq()
+# dat.corereqs = dat.convert_creq()
+
+dd = []
+
+for i, d in enumerate(data):
+    dat = data[i]
+    dat.prereqs = dat.convert_preq()
+    dat.corereqs = dat.convert_creq()
+    json_dump = json.dumps(dat.__dict__)
+    print(json_dump)
+    print(type(json_dump))
+    dd.append(json_dump)
+
 
 print('\n')
 len = len(data)
 print(len)
 
-url = 'http://localhost:5000/courses/add'
+with open("/Users/jillbao/Documents/Projects/sauder-search/data/comm-courses.txt", "w") as f:
+    f.write(json.dumps(dd))
 
-try:
-    r = requests.post(url, data=json.dumps(dat.__dict__))
-except requests.exceptions.ConnectionError:
-    r.status_code = "Connection refused"
+
+# url = 'http://localhost:5000/courses/add'
+
+# try:
+#     if (validateJSON(json_dump)):
+#         r = requests.post(url, json=json_dump)
+#         print(r.text)
+#         print(r.status_code)
+# except requests.exceptions.ConnectionError:
+#     r.status_code = "Connection refused"
