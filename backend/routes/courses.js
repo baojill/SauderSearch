@@ -1,5 +1,6 @@
 const router = require("express").Router();
-let Course = require("../models/course.model");
+const Course = require("../models/course.model");
+// const R = require('ramda');
 
 router.route("/").get((req, res) => {
   Course.find()
@@ -8,14 +9,16 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-  console.log("jHAHAHHAHAHHA");
-  const courseID = req.body.courseID;
-  const name = req.body.name;
-  const credits = Number(req.body.credits);
-  const prereqs = req.body.prereqs;
-  const corereqs = req.body.corereqs;
-  const description = req.body.description;
-  const specialization = req.body.specialization;
+  const {
+    courseID,
+    name,
+    credits,
+    // R.pathOr(NaN, ['req','body','credits']),
+    prereqs,
+    corereqs,
+    description,
+    specialization,
+  } = req.body;
 
   const newCourse = new Course({
     courseID,
@@ -39,6 +42,12 @@ router.route("/:id").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.route("/:name").get((req, res) => {
+  Course.find({ name: req.params.name })
+    .then((result) => res.json(result))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 router.route("/:id").delete((req, res) => {
   Course.findByIdAndDelete(req.params.id)
     .then(() => res.json("Course deleted."))
@@ -59,7 +68,7 @@ router.route("/update/:id").post((req, res) => {
       course
         .save()
         .then(() => res.json("Course updated!"))
-        .catch((err) => res.status(400).json("Error: " + err));
+        .catch((err) => res.status(500).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));
 });

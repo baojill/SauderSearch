@@ -3,22 +3,45 @@ import requests
 import re
 import json
 
-from urllib.request import urlopen as uReq
-from bs4 import BeautifulSoup as soup
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 url = "http://www.calendar.ubc.ca/vancouver/courses.cfm?page=name&code=COMM"
 
 # opening up connection, grabbing the page
-uClient = uReq(url)
+uClient = urlopen(url)
 page_html = uClient.read()
 uClient.close()
 
 # html parsing
-page_soup = soup(page_html, "html.parser")
+page_soup = BeautifulSoup(page_html, "html.parser")
 
 # grabs each course + content
 courses = page_soup.findAll("dt")
 content = page_soup.findAll("dd")
+postData = []
+
+# allCourses => DB
+# course => allCourses.searchBy(name) => will have prereqs.courses
+# <host>/course/courseName
+
+# course = {
+#     name: "",
+#     description: "",
+#     prereqs: {
+#         description: '',
+#         courses: []
+#     },
+#     coreqs: []
+# }
+
+# for courseID in whatever:
+#     course = {
+#         'courseId': courseID,
+#         'name': name,
+#     }
+#     course['description'] = "blah"
+#     postData.append(course)
 
 
 class Course():
@@ -28,19 +51,24 @@ class Course():
         self.courseID = courseID
         self.name = ''
         self.credits = 0
-        self.prereqs = self.Req()
+        self.prereqs = {
+            description: '',
+            courses: []
+        },
         self.corereqs = self.Req()
         self.description = ''
 
     def convert_preq(self):
         return {
             "description": self.prereqs.description,
-            "courses": self.prereqs.courses}
+            "courses": self.prereqs.courses
+        }
 
     def convert_creq(self):
         return {
             "description": self.corereqs.description,
-            "courses": self.corereqs.courses}
+            "courses": self.corereqs.courses
+        }
 
     class Req():
         def __init__(self):
@@ -130,6 +158,8 @@ for i, cont in enumerate(content):
     data[i].corereqs.courses = corereqs
 
 
+# function to check if JSON is valid
+
 def validateJSON(jsonData):
     try:
         json.loads(jsonData)
@@ -146,7 +176,7 @@ for d in data:
     json_d = data[0].__dict__
     # print(json_d)
     try:
-        if (validateJSON(json_dump)):
+        if (validateJSON(json_d)):
             r = requests.post(url, json=json_d)
             print(r.text)
             print(r.status_code)
