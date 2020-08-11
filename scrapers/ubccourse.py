@@ -21,54 +21,26 @@ courses = page_soup.findAll("dt")
 content = page_soup.findAll("dd")
 postData = []
 
-# allCourses => DB
-# course => allCourses.searchBy(name) => will have prereqs.courses
-# <host>/course/courseName
-
-# course = {
-#     name: "",
-#     description: "",
-#     prereqs: {
-#         description: '',
-#         courses: []
-#     },
-#     coreqs: []
-# }
-
-# for courseID in whatever:
-#     course = {
-#         'courseId': courseID,
-#         'name': name,
-#     }
-#     course['description'] = "blah"
-#     postData.append(course)
-
 
 class Course():
-
     # Initialize all variables
     def __init__(self, courseID):
         self.courseID = courseID
         self.name = ''
         self.credits = 0
-        self.prereqs = {
-            description: '',
-            courses: []
-        },
+        self.prereqs = self.Req()
         self.corereqs = self.Req()
         self.description = ''
 
     def convert_preq(self):
         return {
             "description": self.prereqs.description,
-            "courses": self.prereqs.courses
-        }
+            "courses": self.prereqs.courses}
 
     def convert_creq(self):
         return {
             "description": self.corereqs.description,
-            "courses": self.corereqs.courses
-        }
+            "courses": self.corereqs.courses}
 
     class Req():
         def __init__(self):
@@ -111,7 +83,6 @@ def toInt(var):
 data = []
 
 for course in courses:
-    datum = {}
     courseID = course.a.next_sibling.strip().partition("(")[0].strip()
     name = course.b.text
     credits = toInt(course.a.next_sibling.strip().partition(
@@ -124,7 +95,6 @@ for course in courses:
     c.prereqs.courses = []
     c.corereqs.description = ''
     c.corereqs.courses = []
-
     data.append(c)
 
 for i, cont in enumerate(content):
@@ -147,7 +117,6 @@ for i, cont in enumerate(content):
         if em.text == 'Prerequisite:':
             pDescription = em.next_sibling.strip()
             prereqs = parseReqs(em.next_sibling.strip().partition(".")[0])
-
         if em.text == 'Corequisite:':
             cDescription = em.next_sibling.strip()
             corereqs = parseReqs(em.next_sibling.strip().partition(".")[0])
@@ -157,28 +126,15 @@ for i, cont in enumerate(content):
     data[i].prereqs.courses = prereqs
     data[i].corereqs.courses = corereqs
 
-
-# function to check if JSON is valid
-
-def validateJSON(jsonData):
-    try:
-        json.loads(jsonData)
-    except ValueError as err:
-        return False
-    return True
-
-
 # post data using Python Requests module
 
 url = 'http://localhost:5000/courses/add'
 
-for d in data:
-    json_d = data[0].__dict__
-    # print(json_d)
-    try:
-        if (validateJSON(json_d)):
-            r = requests.post(url, json=json_d)
-            print(r.text)
-            print(r.status_code)
-    except requests.exceptions.ConnectionError:
-        r.status_code = "Connection refused"
+for i, d in enumerate(data):
+    d.prereqs = d.convert_preq()
+    d.corereqs = d.convert_creq()
+    json_d = data[i].__dict__
+    print(json_d)
+    r = requests.post(url, json=json_d)
+    print(r.text)
+    print(r.status_code)
