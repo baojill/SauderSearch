@@ -124,6 +124,7 @@ for i, cont in enumerate(content):
     data[i].description = description
     data[i].prereqs.description = pDescription
     data[i].prereqs.courses = prereqs
+    data[i].corereqs.description = cDescription
     data[i].corereqs.courses = corereqs
 
 # post data using Python Requests module

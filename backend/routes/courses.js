@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const Course = require("../models/course.model");
-// const R = require('ramda');
 
 router.route("/").get((req, res) => {
   Course.find()
@@ -13,7 +12,6 @@ router.route("/add").post((req, res) => {
     courseID,
     name,
     credits,
-    // R.pathOr(NaN, ['req','body','credits']),
     prereqs,
     corereqs,
     description,
@@ -36,15 +34,16 @@ router.route("/add").post((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").get((req, res) => {
-  Course.findById(req.params.id)
-    .then((course) => res.json(course))
+router.route("/:courseID").get((req, res) => {
+  console.log("hehe");
+  Course.find({ courseID: req.params.courseID })
+    .then((result) => res.json(result))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:name").get((req, res) => {
-  Course.find({ name: req.params.name })
-    .then((result) => res.json(result))
+router.route("/:id").get((req, res) => {
+  Course.findById(req.params.id)
+    .then((course) => res.json(course))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 

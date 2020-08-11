@@ -1,144 +1,135 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Button, Card } from "react-bootstrap";
+import { type } from "ramda";
 
-export default class CourseNavigator extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onChangeID = this.onChangeID.bind(this);
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeSpecialization = this.onChangeSpecialization.bind(this);
-    this.onChangeCredits = this.onChangeCredits.bind(this);
-    this.onChangePrereqs = this.onChangePrereqs.bind(this);
-
-    this.state = {
-      couseID: "",
-      courseName: "",
+function CourseNavigator() {
+  const initialState = {
+    courseID: "",
+    name: "",
+    credits: 0,
+    prereqs: {
       description: "",
-      specialization: "",
-      credits: 0,
-      prereqs: [],
-      options: [],
-    };
-  }
+      courses: [],
+    },
+    corereqs: {
+      description: "",
+      courses: [],
+    },
+    description: "",
+    specialization: "",
+  };
 
-  onChangeID(e) {
-    this.setState({
-      courseID: e.target.value,
-    });
-  }
+  const [course, setCourse] = useState(initialState);
+  const [id, setID] = useState("");
 
-  onChangeName(e) {
-    this.setState({
-      courseName: e.target.value,
-    });
-  }
+  useEffect(() => {
+    const url = "http://localhost:5000/courses/" + id;
 
-  onChangeDescription(e) {
-    this.setState({
-      description: e.target.value,
-    });
-  }
+    axios
+      .get(url)
+      .then((res) => {
+        setCourse(res.data[0]);
+        console.log(course);
+      })
+      .catch((error) => alert("course ID not valid"));
+  }, []);
 
-  onChangeSpecialization(e) {
-    this.setState({
-      specialization: e.target.value,
-    });
-  }
-
-  onChangeCredits(e) {
-    this.setState({
-      credits: e.target.value,
-    });
-  }
-
-  onChangePrereqs(e) {
-    this.setState({
-      prereqs: e.target.value,
-    });
-  }
-
-  onSubmit(e) {
+  const fetchCourse = (e) => {
     e.preventDefault();
+    const url = "http://localhost:5000/courses/" + id;
+    console.log(`URL: ${url}`);
 
-    const course = {
-      courseID: this.state.courseID,
-      courseName: this.state.courseName,
-      description: this.state.description,
-      specialization: this.state.specialization,
-      credits: this.state.credits,
-      prereqs: this.state.prereqs,
-    };
+    axios
+      .get(url)
+      .then((res) => {
+        setCourse(res.data[0]);
+        console.log(res.data[0]);
+        console.log(course);
+        console.log(type(course));
+      })
+      .catch((error) => alert("course ID not valid"));
+  };
 
-    console.log(course);
+  const changeID = (e) => {
+    setID(e.target.value);
+  };
 
-    window.location = "/";
-  }
+  const addCourse = (e) => {
+    console.log("Course Added");
+  };
 
-  componentDidMount() {
-    this.setState({
-      options: [
-        "Accounting",
-        "Business Technology Management",
-        "Entrepreneurship",
-        "Finance",
-        "General Business Management",
-        "Global Supply Chain and Logistics Management",
-        "Marketing",
-        "Operations and Logistics",
-        "Organizational Behaviour and Human Resources",
-        "Real Estate",
-      ],
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h3>Search for a Sauder Course</h3>
-        <form onSubmit={this.onSubmit}>
-          <div class="row">
-            <div className="form-group" class="col-md-6">
-              <label>Specialization: </label>
-              <select
-                ref="userInput"
+  return (
+    <div>
+      <h3>Search for a Sauder Course</h3>
+      <form onSubmit={(event) => fetchCourse(event)}>
+        <div class="row">
+          <div className="form-group" class="col-md-6">
+            <label>Specialization: </label>
+          </div>
+          <div class="column col-md-6">
+            <div className="form-group">
+              <label>Course ID (e.g. COMM 101): </label>
+              <input
+                type="text"
+                defaultValue="COMM 100"
                 required
                 className="form-control"
-                value={this.state.specialization}
-                onChange={this.onChangeSpecialization}
-              >
-                {this.state.options.map(function (option) {
-                  return (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  );
-                })}
-              </select>
+                onChange={changeID}
+              />
             </div>
-            <div class="column col-md-6">
-              <div className="form-group">
-                <label>Course ID (e.g. COMM 101): </label>
-                <input
-                  type="text"
-                  required
-                  className="form-control"
-                  value={this.state.courseID}
-                  onChange={this.onChangeID}
-                />
-              </div>
-              <label>Prerequisite / Corequisite Courses: </label>
-              <div className="form-group">
-                <input
-                  type="submit"
-                  value="Add to Worklist"
-                  className="btn btn-primary"
-                />
-              </div>
+
+            <Card bg={"dark"} text={"white"} className="mb-2">
+              <Card.Header as="h5">
+                {course.courseID} - {course.name}{" "}
+              </Card.Header>
+              <Card.Body>
+                <Card.Text>{course.description}</Card.Text>
+              </Card.Body>
+            </Card>
+            <br />
+
+            <Card bg={"light"} text={"dark"} className="mb-2">
+              <Card.Header as="h5">Prerequisite Courses:</Card.Header>
+              <Card.Body>
+                <Card.Text>{course.prereqs.description}</Card.Text>
+              </Card.Body>
+            </Card>
+            <br />
+
+            <Card bg={"light"} text={"dark"} className="mb-2">
+              <Card.Header as="h5">Corerequisite Courses:</Card.Header>
+              <Card.Body>
+                <Card.Text>{course.corereqs.description}</Card.Text>
+              </Card.Body>
+            </Card>
+            <br />
+
+            <div className="form-group">
+              <Button variant="info">Add to Worklist</Button>{" "}
             </div>
           </div>
-        </form>
-      </div>
-    );
-  }
+        </div>
+      </form>
+    </div>
+  );
 }
+
+export default CourseNavigator;
+
+//   componentDidMount() {
+//     this.setState({
+//       options: [
+//         "Accounting",
+//         "Business Technology Management",
+//         "Entrepreneurship",
+//         "Finance",
+//         "General Business Management",
+//         "Global Supply Chain and Logistics Management",
+//         "Marketing",
+//         "Operations and Logistics",
+//         "Organizational Behaviour and Human Resources",
+//         "Real Estate",
+//       ],
+//     });
+//   }
