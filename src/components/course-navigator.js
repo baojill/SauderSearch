@@ -43,8 +43,6 @@ function CourseNavigator(props) {
       .get(url)
       .then((res) => {
         setCourse(res.data[0]);
-        console.log(res.data[0]);
-        console.log(course);
       })
       .catch((error) => alert("course ID not valid"));
   };
@@ -54,8 +52,9 @@ function CourseNavigator(props) {
   };
 
   const addToWorklist = (e) => {
-    console.log(course.courseID + course.name);
-    props.addCourse(course.courseID, course.name);
+    course
+      ? props.addCourse(course.courseID, course.name)
+      : alert("Please input a valid Course ID before adding to worklist");
   };
 
   return (
@@ -79,10 +78,12 @@ function CourseNavigator(props) {
 
             <Card bg={"dark"} text={"white"} className="mb-2">
               <Card.Header as="h5">
-                {course.courseID} - {course.name}{" "}
+                {course ? course.courseID : ""}{" "}
+                {course ? "-" : "Course ID is not valid"}{" "}
+                {course ? course.name : ""}{" "}
               </Card.Header>
               <Card.Body>
-                <Card.Text>{course.description}</Card.Text>
+                <Card.Text>{course ? course.description : ""}</Card.Text>
               </Card.Body>
             </Card>
             <br />
@@ -90,7 +91,9 @@ function CourseNavigator(props) {
             <Card bg={"light"} text={"dark"} className="mb-2">
               <Card.Header as="h5">Prerequisite Courses:</Card.Header>
               <Card.Body>
-                <Card.Text>{course.prereqs.description}</Card.Text>
+                <Card.Text>
+                  {course ? course.prereqs.description : ""}
+                </Card.Text>
               </Card.Body>
             </Card>
             <br />
@@ -98,7 +101,9 @@ function CourseNavigator(props) {
             <Card bg={"light"} text={"dark"} className="mb-2">
               <Card.Header as="h5">Corerequisite Courses:</Card.Header>
               <Card.Body>
-                <Card.Text>{course.corereqs.description}</Card.Text>
+                <Card.Text>
+                  {course ? course.corereqs.description : ""}
+                </Card.Text>
               </Card.Body>
             </Card>
             <br />
