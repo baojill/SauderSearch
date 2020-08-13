@@ -23,7 +23,7 @@ function reducer(state = [], action) {
       ];
 
     case "DELETE_COURSE":
-      return state.filter((course) => course.id !== action.id);
+      return state.filter((course) => course.id !== action.payload.id);
 
     default:
       return state;

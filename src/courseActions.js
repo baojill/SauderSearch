@@ -8,9 +8,12 @@ export const addCourse = (courseID, courseName) => {
   };
 };
 
-export const deleteCourse = () => {
+export const deleteCourse = (id) => {
   return {
     type: "DELETE_COURSE",
+    payload: {
+      id: id,
+    },
   };
 };
 
