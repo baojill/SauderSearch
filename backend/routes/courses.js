@@ -1,8 +1,9 @@
 const router = require("express").Router();
-const Course = require("../models/course.model");
+const course = require("../models/course");
 
 router.route("/").get((req, res) => {
-  Course.find()
+  course
+    .find()
     .then((courses) => res.json(courses))
     .catch((err) => res.status(400).json("Error: " + err));
 });
@@ -18,7 +19,7 @@ router.route("/add").post((req, res) => {
     specialization,
   } = req.body;
 
-  const newCourse = new Course({
+  const newCourse = new course({
     courseID,
     name,
     credits,
@@ -35,25 +36,29 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/:courseID").get((req, res) => {
-  Course.find({ courseID: req.params.courseID })
+  course
+    .find({ courseID: req.params.courseID })
     .then((result) => res.json(result))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id").get((req, res) => {
-  Course.findById(req.params.id)
+  course
+    .findById(req.params.id)
     .then((course) => res.json(course))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id").delete((req, res) => {
-  Course.findByIdAndDelete(req.params.id)
+  course
+    .findByIdAndDelete(req.params.id)
     .then(() => res.json("Course deleted."))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.route("/update/:id").post((req, res) => {
-  Course.findById(req.params.id)
+  course
+    .findById(req.params.id)
     .then((course) => {
       course.courseID = req.body.courseID;
       course.name = req.body.name;

@@ -27,9 +27,7 @@ app.listen(port, () => {
 });
 
 const coursesRouter = require("./routes/courses");
+const specializationRouter = require("./routes/specializations");
 
 app.use("/courses", coursesRouter);
-
-app.get("/test", function (req, res) {
-  res.send("Hello World");
-});
+app.use("/specializations", specializationRouter);
