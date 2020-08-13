@@ -4,10 +4,56 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+
+let lastID = 0;
+
+function reducer(state = [], action) {
+  switch (action.type) {
+    case "ADD_COURSE":
+      return [
+        ...state,
+        {
+          id: ++lastID,
+          courseID: action.payload.courseID,
+          courseName: action.payload.courseName,
+          completed: false,
+        },
+      ];
+
+    case "DELETE_COURSE":
+      return state.filter((course) => course.id !== action.id);
+
+    default:
+      return state;
+  }
+}
+
+// export const addCourse = (courseId, courseName) => {
+//   return {
+//     type: "ADD_COURSE",
+//     payload: {
+//       courseId: courseId,
+//       courseName: courseName,
+//     },
+//   };
+// };
+
+// export const deleteCourse = () => {
+//   return {
+//     type: "DELETE_COURSE",
+//   };
+// };
+
+const store = createStore(reducer);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById("root")
 );
 

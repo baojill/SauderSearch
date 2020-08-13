@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Card } from "react-bootstrap";
-import { type } from "ramda";
+import { connect } from "react-redux";
+import { addCourse } from "../courseActions";
 
-function CourseNavigator() {
+function CourseNavigator(props) {
   const initialState = {
     courseID: "",
     name: "",
@@ -30,7 +31,6 @@ function CourseNavigator() {
       .get(url)
       .then((res) => {
         setCourse(res.data[0]);
-        console.log(course);
       })
       .catch((error) => alert("course ID not valid"));
   }, []);
@@ -38,7 +38,6 @@ function CourseNavigator() {
   const fetchCourse = (e) => {
     e.preventDefault();
     const url = "http://localhost:5000/courses/" + id;
-    console.log(`URL: ${url}`);
 
     axios
       .get(url)
@@ -46,7 +45,6 @@ function CourseNavigator() {
         setCourse(res.data[0]);
         console.log(res.data[0]);
         console.log(course);
-        console.log(type(course));
       })
       .catch((error) => alert("course ID not valid"));
   };
@@ -55,8 +53,9 @@ function CourseNavigator() {
     setID(e.target.value);
   };
 
-  const addCourse = (e) => {
-    console.log("Course Added");
+  const addToWorklist = (e) => {
+    console.log(course.courseID + course.name);
+    props.addCourse(course.courseID, course.name);
   };
 
   return (
@@ -73,7 +72,6 @@ function CourseNavigator() {
               <input
                 type="text"
                 defaultValue="COMM 100"
-                required
                 className="form-control"
                 onChange={changeID}
               />
@@ -106,7 +104,9 @@ function CourseNavigator() {
             <br />
 
             <div className="form-group">
-              <Button variant="info">Add to Worklist</Button>{" "}
+              <Button variant="info" onClick={addToWorklist}>
+                Add to Worklist
+              </Button>{" "}
             </div>
           </div>
         </div>
@@ -115,7 +115,11 @@ function CourseNavigator() {
   );
 }
 
-export default CourseNavigator;
+const mapDispatchToProps = (dispatch) => {
+  return { addCourse: (courseID, name) => dispatch(addCourse(courseID, name)) };
+};
+
+export default connect(null, mapDispatchToProps)(CourseNavigator);
 
 //   componentDidMount() {
 //     this.setState({

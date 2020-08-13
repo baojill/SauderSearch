@@ -35,7 +35,6 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/:courseID").get((req, res) => {
-  console.log("hehe");
   Course.find({ courseID: req.params.courseID })
     .then((result) => res.json(result))
     .catch((err) => res.status(400).json("Error: " + err));
