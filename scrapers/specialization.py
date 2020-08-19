@@ -123,6 +123,18 @@ url = "https://mybcom.sauder.ubc.ca/courses-money-enrolment/options/" + \
 {
     "name": "Operations and Logistics",
     "courses": {
+        "Year 3": {
+            "Required": ["COMM 204", "COMM 443", "COMM 449"]
+        },
+        "Year 4": {
+            "Six credits from the following courses": ["COMM 414", "COMM 415", "COMM 444", "COMM 445", "COMM 446", "COMM 447", "COMM 448"]
+        }
+    }
+}
+
+{
+    "name": "Organizational Behaviour and Human Resources",
+    "courses": {
         "Year 3 Term 1": {
             "Human Resources Management track (HRM)": ["COHR 303", "COHR 304", "COHR 305", "COHR 308", "COHR 403", "COHR 405", "COHR 406", "COHR 433", "COMM 386H", "COMM 486C"],
             "Organizational Consulting track (OC)": ["COHR 301", "COHR 302", "COHR 307", "COHR 311", "COHR 401", "COHR 402", "COHR 404", "COHR 407", "COHR 408", "COHR 409", "COHR 410", "COHR 411", "COHR 486A", "COHR 486B", "COHR 486D", "COMM 383", "COMM 386H", "COMM 486C"]

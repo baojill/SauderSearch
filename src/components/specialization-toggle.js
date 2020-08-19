@@ -40,9 +40,6 @@ function SpecializationToggle() {
       .get(url)
       .then((res) => {
         setSpecialization(res.data[0]);
-        console.log(specialization);
-        console.log(specialization.courses);
-        console.log(Object.keys(specialization.courses));
       })
       .catch((error) => alert("specialization not valid"));
   };
@@ -57,7 +54,6 @@ function SpecializationToggle() {
         ret += "\n";
       });
     }
-    console.log(specialization.courses[e]);
     return ret;
   };
 
@@ -89,7 +85,6 @@ function SpecializationToggle() {
       <div>
         {specialization
           ? Object.keys(specialization.courses).map((e) => {
-              console.log(e);
               return (
                 <Card key={e} bg={"light"} text={"dark"} className="mb-2">
                   <Card.Header as="h5">{e}</Card.Header>
