@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import { addCourse } from "../courseActions";
+import SpecializationToggle from "./specialization-toggle";
 
 function CourseNavigator(props) {
   const initialState = {
@@ -59,13 +60,15 @@ function CourseNavigator(props) {
 
   return (
     <div>
-      <h3>Search for a Sauder Course</h3>
+      <h3>Plan your Sauder Degree</h3>
       <form onSubmit={(event) => fetchCourse(event)}>
-        <div class="row">
-          <div className="form-group" class="col-md-6">
-            <label>Specialization: </label>
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <SpecializationToggle></SpecializationToggle>
+            </div>
           </div>
-          <div class="column col-md-6">
+          <div className="column col-md-6">
             <div className="form-group">
               <label>Course ID (e.g. COMM 101): </label>
               <input

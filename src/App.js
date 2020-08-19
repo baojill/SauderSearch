@@ -8,7 +8,6 @@ import DegreeOverview from "./components/degree-overview";
 
 function App() {
   return (
-    // <Provider store={store}>
     <Router>
       <div className="container">
         <Navbar />
@@ -17,7 +16,6 @@ function App() {
         <Route path="/create" component={DegreeOverview} />
       </div>
     </Router>
-    // </Provider>
   );
 }
 
