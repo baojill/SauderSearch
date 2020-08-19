@@ -53,7 +53,8 @@ function SpecializationToggle() {
       ret = specialization.courses[e].toString();
     } else {
       Object.keys(specialization.courses[e]).map((el) => {
-        ret = renderSpecs(e, el);
+        ret += renderSpecs(e, el);
+        ret += "\n";
       });
     }
     console.log(specialization.courses[e]);
@@ -72,7 +73,7 @@ function SpecializationToggle() {
       <DropdownButton
         id="dropdown-basic-button"
         variant="secondary"
-        title={id ? id : "Choose a Specialization"}
+        title={id ? id : "Accounting"}
         onSelect={(e) => {
           setID(e);
           fetchSpecialization(e);
