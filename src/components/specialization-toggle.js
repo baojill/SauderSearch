@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { connect } from "react-redux";
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
 
 function SpecializationToggle() {
@@ -17,7 +16,6 @@ function SpecializationToggle() {
     "Real Estate",
   ];
 
-  const defaultOption = options[0];
   const [specialization, setSpecialization] = useState("");
   const [id, setID] = useState("");
 
@@ -45,13 +43,13 @@ function SpecializationToggle() {
   };
 
   const renderReq = (e) => {
-    let ret = "";
+    let ret = [];
     if (e == "Electives") {
-      ret = specialization.courses[e].toString();
+      ret.push(specialization.courses[e].toString());
     } else {
       Object.keys(specialization.courses[e]).map((el) => {
-        ret += renderSpecs(e, el);
-        ret += "\n";
+        ret.push(renderSpecs(e, el));
+        // ret.push("\n");
       });
     }
     return ret;
@@ -90,7 +88,11 @@ function SpecializationToggle() {
                   <Card.Header as="h5">{e}</Card.Header>
                   {/* Object.keys() */}
                   <Card.Body>
-                    <Card.Text>{renderReq(e)}</Card.Text>
+                    <Card.Text>
+                      {renderReq(e).map((e) => {
+                        return <p>{e}</p>;
+                      })}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               );
