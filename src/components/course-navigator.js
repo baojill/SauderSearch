@@ -128,20 +128,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(null, mapDispatchToProps)(CourseNavigator);
-
-//   componentDidMount() {
-//     this.setState({
-//       options: [
-//         "Accounting",
-//         "Business Technology Management",
-//         "Entrepreneurship",
-//         "Finance",
-//         "General Business Management",
-//         "Global Supply Chain and Logistics Management",
-//         "Marketing",
-//         "Operations and Logistics",
-//         "Organizational Behaviour and Human Resources",
-//         "Real Estate",
-//       ],
-//     });
-//   }
