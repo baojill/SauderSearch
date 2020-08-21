@@ -26,7 +26,8 @@ function CourseNavigator(props) {
   const [id, setID] = useState("");
 
   useEffect(() => {
-    const url = "http://localhost:5000/courses/" + id;
+    const url = process.env.BACKEND_URL + "courses/" + id;
+    // const url = "http://localhost:5000/courses/" + id;
 
     axios
       .get(url)
@@ -38,7 +39,8 @@ function CourseNavigator(props) {
 
   const fetchCourse = (e) => {
     e.preventDefault();
-    const url = "http://localhost:5000/courses/" + id;
+    const url = process.env.BACKEND_URL + "courses/" + id;
+    // const url = "http://localhost:5000/courses/" + id;
 
     axios
       .get(url)

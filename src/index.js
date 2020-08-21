@@ -6,6 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import { createStore } from "redux";
 import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 let lastID = 0;
 
@@ -30,6 +31,8 @@ function reducer(state = [], action) {
   }
 }
 
+// UI reducer
+
 // export const addCourse = (courseId, courseName) => {
 //   return {
 //     type: "ADD_COURSE",
@@ -47,6 +50,7 @@ function reducer(state = [], action) {
 // };
 
 const store = createStore(reducer);
+const baseUrl = process.env.BACKEND_URL;
 
 ReactDOM.render(
   <Provider store={store}>

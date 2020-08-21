@@ -2,8 +2,8 @@ export const addCourse = (courseID, courseName) => {
   return {
     type: "ADD_COURSE",
     payload: {
-      courseID: courseID,
-      courseName: courseName,
+      courseID,
+      courseName,
     },
   };
 };
@@ -12,7 +12,7 @@ export const deleteCourse = (id) => {
   return {
     type: "DELETE_COURSE",
     payload: {
-      id: id,
+      id,
     },
   };
 };
