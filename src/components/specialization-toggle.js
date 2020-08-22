@@ -20,7 +20,7 @@ function SpecializationToggle() {
   const [id, setID] = useState("");
 
   useEffect(() => {
-    const url = "http://localhost:5000/specializations/" + id;
+    const url = process.env.BACKEND_URL + "/specializations/" + id;
 
     axios
       .get(url)
@@ -32,7 +32,7 @@ function SpecializationToggle() {
 
   const fetchSpecialization = (id) => {
     // e.preventDefault();
-    const url = "http://localhost:5000/specializations/" + id;
+    const url = process.env.BACKEND_URL + "/specializations/" + id;
 
     axios
       .get(url)
