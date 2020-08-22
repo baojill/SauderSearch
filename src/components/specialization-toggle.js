@@ -20,7 +20,8 @@ function SpecializationToggle() {
   const [id, setID] = useState("");
 
   useEffect(() => {
-    const url = process.env.BACKEND_URL + "/specializations/" + id;
+    const url = "https://sauder-search.herokuapp.com/courses/specializations/" + id;
+    // process.env.BACKEND_URL + "/specializations/" + id;
 
     axios
       .get(url)
@@ -32,7 +33,7 @@ function SpecializationToggle() {
 
   const fetchSpecialization = (id) => {
     // e.preventDefault();
-    const url = process.env.BACKEND_URL + "/specializations/" + id;
+    const url = "https://sauder-search.herokuapp.com/courses/specializations/" + id;
 
     axios
       .get(url)

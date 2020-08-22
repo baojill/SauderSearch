@@ -26,8 +26,8 @@ function CourseNavigator(props) {
   const [id, setID] = useState("");
 
   useEffect(() => {
-    const url = process.env.BACKEND_URL + "/courses/" + id;
-    // const url = "https://sauder-search.herokuapp.com/courses/" + id;
+    // const url = process.env.BACKEND_URL + "/courses/" + id;
+    const url = "https://sauder-search.herokuapp.com/courses/" + id;
 
     axios
       .get(url)
@@ -39,8 +39,8 @@ function CourseNavigator(props) {
 
   const fetchCourse = (e) => {
     e.preventDefault();
-    const url = process.env.BACKEND_URL + "/courses/" + id;
-    // const url = "https://sauder-search.herokuapp.com/courses/" + id;
+    // const url = process.env.BACKEND_URL + "/courses/" + id;
+    const url = "https://sauder-search.herokuapp.com/courses/" + id;
 
     axios
       .get(url)
